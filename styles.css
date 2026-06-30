@@ -227,7 +227,7 @@ button { font: inherit; }
   position: relative;
   z-index: 1;
   width: 100%;
-  padding: 88px var(--pad-x);
+  padding: 32px var(--pad-x) 88px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -796,7 +796,7 @@ button { font: inherit; }
   :root { --pad-x: 40px; }
 
   .dirC__hero--image { min-height: 640px; }
-  .dirC__hero-overlay { padding: 56px var(--pad-x); }
+  .dirC__hero-overlay { padding: 24px var(--pad-x) 56px; }
 
   .dirC__hero-grid { grid-template-columns: 1fr; gap: 40px; }
 
@@ -841,7 +841,7 @@ button { font: inherit; }
   .dirC__nav.is-open { display: flex; }
 
   .dirC__hero--image { min-height: 560px; }
-  .dirC__hero-overlay { padding: 64px var(--pad-x); }
+  .dirC__hero-overlay { padding: 24px var(--pad-x) 64px; }
 
   .dirC__intro,
   .dirC__approach,

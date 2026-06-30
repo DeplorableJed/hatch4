@@ -189,12 +189,10 @@
     startAutoRotate();
   }
 
-  // Pause rotation while the user is hovering the tab strip or plate.
+  // Pause only on keyboard focus (so tab-key users can read at their own pace).
   const tabStrip = document.querySelector('.dirC__tabs');
   [tabStrip, plate].forEach(function (el) {
     if (!el) return;
-    el.addEventListener('mouseenter', stopAutoRotate);
-    el.addEventListener('mouseleave', startAutoRotate);
     el.addEventListener('focusin', stopAutoRotate);
     el.addEventListener('focusout', startAutoRotate);
   });
@@ -205,12 +203,8 @@
     else startAutoRotate();
   });
 
-  // Honor reduced-motion: don't auto-rotate if the user prefers reduced motion.
-  const prefersReducedMotion = window.matchMedia &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!prefersReducedMotion) {
-    startAutoRotate();
-  }
+  // Always rotate — 10 seconds per practice.
+  startAutoRotate();
 
   // ----- Mobile nav toggle -----
   const navToggle = document.querySelector('.dirC__nav-toggle');
