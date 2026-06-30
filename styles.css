@@ -230,7 +230,8 @@ button { font: inherit; }
   padding: 88px var(--pad-x);
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
+  align-items: flex-start;
   color: var(--paper);
 }
 .dirC__hero-h {
@@ -367,8 +368,12 @@ button { font: inherit; }
 .dirC__steps li {
   padding: 32px 28px;
   border-right: 1px solid var(--rule);
+  transition: background-color 0.3s ease;
+  cursor: default;
 }
 .dirC__steps li:last-child { border-right: none; }
+.dirC__steps li:hover { background-color: #fdf8ea; }
+
 .dirC__steps .step {
   display: block;
   font-family: var(--t-mono);
@@ -376,14 +381,24 @@ button { font: inherit; }
   letter-spacing: 0.14em;
   color: var(--ink-soft);
   margin-bottom: 16px;
+  transition: color 0.3s ease, transform 0.3s ease, letter-spacing 0.3s ease;
 }
+.dirC__steps li:hover .step {
+  color: var(--accent);
+  transform: translateY(-2px);
+  letter-spacing: 0.18em;
+}
+
 .dirC__steps h4 {
   font-family: var(--t-display);
   font-size: 22px;
   font-weight: 500;
   margin: 0 0 10px;
   letter-spacing: -0.01em;
+  transition: color 0.3s ease;
 }
+.dirC__steps li:hover h4 { color: var(--ink); }
+
 .dirC__steps p {
   font-size: 14px;
   line-height: 1.55;
@@ -433,20 +448,20 @@ button { font: inherit; }
 .dirC__tab.is-active .t { color: var(--paper); }
 
 .dirC__plate {
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 56px;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
   padding: 32px;
   background: var(--paper-card);
   border: 1px solid var(--rule);
   max-width: 1200px;
   margin: 0 auto;
 }
-.dirC__plate-image { position: relative; }
+.dirC__plate-body { order: 1; }
+.dirC__plate-image { order: 2; position: relative; }
 .dirC__plate-image img {
   width: 100%;
-  aspect-ratio: 4/5;
+  aspect-ratio: 16/9;
   object-fit: cover;
   border: 1px solid var(--rule);
   transition: opacity 0.18s ease;
@@ -466,6 +481,9 @@ button { font: inherit; }
   flex-direction: column;
   gap: 16px;
   padding: 16px 8px;
+  position: relative;
+  /* Reserve room on the right for the absolutely-positioned CTA */
+  padding-right: 280px;
 }
 .dirC__plate-no {
   font-family: var(--t-mono);
@@ -493,6 +511,7 @@ button { font: inherit; }
   line-height: 1.55;
   color: var(--ink-muted);
   margin: 0;
+  max-width: 720px;
 }
 .dirC__plate-list {
   display: flex;
@@ -530,8 +549,9 @@ button { font: inherit; }
   color: var(--ink-soft);
 }
 .dirC__plate-cta {
-  align-self: flex-start;
-  margin-top: 12px;
+  position: absolute;
+  top: 16px;
+  right: 8px;
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -566,6 +586,13 @@ button { font: inherit; }
   border: 1px solid var(--rule);
   padding: 36px 40px;
   margin: 0;
+  transition: background-color 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  cursor: default;
+}
+.dirC__voice:hover {
+  background-color: #fdf8ea;
+  border-color: var(--accent);
+  transform: translateY(-2px);
 }
 .dirC__voice blockquote {
   font-family: var(--t-display);
@@ -580,6 +607,11 @@ button { font: inherit; }
   color: var(--accent);
   vertical-align: -0.4em;
   margin-right: 4px;
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+.dirC__voice:hover .qmark {
+  transform: translate(-2px, -2px) scale(1.08);
 }
 .dirC__voice figcaption {
   display: flex;
@@ -590,6 +622,10 @@ button { font: inherit; }
   font-family: var(--t-display);
   font-weight: 500;
   font-size: 16px;
+  transition: color 0.3s ease;
+}
+.dirC__voice:hover figcaption strong {
+  color: var(--accent);
 }
 .dirC__voice figcaption em {
   font-style: italic;
@@ -630,6 +666,18 @@ button { font: inherit; }
 }
 .dirC__person:nth-child(2n) .dirC__person-portrait { background: #4a3a26; }
 .dirC__person:nth-child(3n) .dirC__person-portrait { background: #6a5230; }
+
+/* Real headshots — fill the placeholder, drop the warm overlay so the photo reads true. */
+.dirC__person-portrait--photo { background: #2b2118; }
+.dirC__person-portrait--photo::after { display: none; }
+.dirC__person-portrait img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
 .dirC__person-portrait span {
   font-family: var(--t-display);
   font-style: italic;
@@ -756,8 +804,9 @@ button { font: inherit; }
   .dirC__steps li:nth-child(2n) { border-right: none; }
   .dirC__steps li:nth-child(-n+2) { border-bottom: 1px solid var(--rule); }
 
-  .dirC__plate { grid-template-columns: 1fr; gap: 32px; }
+  .dirC__plate { gap: 28px; }
   .dirC__plate-body h3 { font-size: 40px; }
+  .dirC__plate-body { padding-right: 200px; }
 
   .dirC__people-grid { grid-template-columns: repeat(3, 1fr); }
 
@@ -829,6 +878,14 @@ button { font: inherit; }
   }
   .dirC__tabs::-webkit-scrollbar { display: none; }
   .dirC__tab { flex: 0 0 auto; }
+
+  /* Drop CTA back into normal flow on narrow screens */
+  .dirC__plate-body { padding-right: 8px; }
+  .dirC__plate-cta {
+    position: static;
+    margin-top: 12px;
+    align-self: flex-start;
+  }
 
   .dirC__visit-card { padding: 24px 20px; }
   .dirC__visit-row { grid-template-columns: 80px 1fr; gap: 12px; }

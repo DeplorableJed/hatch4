@@ -229,9 +229,9 @@ The prototype uses placeholder photography from the existing site. Production sh
 - A bar/restaurant interior at service (specialty 02 — `bars.jpg`)
 - An affluent residence detail (specialty 03 — `affluent.png`)
 - A small-business owner / commercial scene (specialty 04 — `commercial.jpg`)
-- A contractor on a job site (specialty 05 — `contractor.png`)
-- A family / household scene (specialty 06 — `personal.jpg`)
-- Pest control technician (specialty 07 — currently reuses `contractor.png`)
+- A contractor on a job site (specialty 05 — `contractor2.png`)
+- A family / household scene (specialty 06 — `life.png`)
+- Pest control technician (specialty 07 — currently reuses `contractor2.png`)
 - Garage / dealership service bay (specialty 08 — currently reuses `commercial.jpg`)
 - Headshots of all 6 team members (currently the design uses initials on dark gradient swatches; this is a reasonable fallback if real headshots aren't available, but real headshots are strongly preferred)
 

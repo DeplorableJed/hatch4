@@ -49,7 +49,7 @@
       title: 'Artisan Contractors',
       audience: 'Trades, subcontractors, remodelers, field crews',
       body: 'Built for crews, job sites, tools, vehicles, and real construction risk — not generic small-business policies.',
-      img: 'assets/verticals/contractor.png',
+      img: 'assets/verticals/contractor2.png',
       tags: ['Tools & equipment', 'Auto & GL', 'Certificates of insurance'],
       cta: 'Talk to a contractor specialist'
     },
@@ -58,7 +58,7 @@
       title: 'Life & Family',
       audience: 'Households, business-owner families',
       body: 'Life coverage rooted in real obligations — debt, mortgage, income replacement, education — not a generic calculator.',
-      img: 'assets/verticals/personal.jpg',
+      img: 'assets/verticals/life.png',
       tags: ['Term & whole', 'Key-person', 'Education planning'],
       cta: 'Plan with a life advisor'
     },
@@ -67,7 +67,7 @@
       title: 'Pest Control',
       audience: 'Pest control operators, exterminators, lawn & turf companies',
       body: 'Coverage built around chemical exposure, applicator licensing, vehicle fleets, and the liability tail unique to the pest control trade.',
-      img: 'assets/verticals/contractor.png',
+      img: 'assets/verticals/pest-control.png',
       tags: ['Pollution liability', 'Auto & equipment', 'Applicator E&O'],
       cta: 'Talk to a pest control specialist'
     },
@@ -76,7 +76,7 @@
       title: 'Garage & Dealers',
       audience: 'Auto service & repair, body shops, classic car remodelers, non-franchise dealers',
       body: 'Garage liability, dealers open lot, and service operations coverage for shops and dealers that need more than a standard commercial auto policy.',
-      img: 'assets/verticals/commercial.jpg',
+      img: 'assets/verticals/mechanic.png',
       tags: ['Garage liability', 'Dealers open lot', 'Workers comp'],
       cta: 'Talk to a garage specialist'
     }
@@ -140,7 +140,10 @@
   }
 
   tabs.forEach(function (tab, idx) {
-    tab.addEventListener('click', function () { selectTab(idx, false); });
+    tab.addEventListener('click', function () {
+      selectTab(idx, false);
+      restartAutoRotate();
+    });
     tab.addEventListener('keydown', function (e) {
       let next = -1;
       if (e.key === 'ArrowRight') next = (idx + 1) % tabs.length;
@@ -150,9 +153,64 @@
       if (next >= 0) {
         e.preventDefault();
         selectTab(next, true);
+        restartAutoRotate();
       }
     });
   });
+
+  // ----- Auto-rotate every 10 seconds -----
+  const ROTATE_MS = 10000;
+  let rotateTimer = null;
+
+  function getCurrentIndex() {
+    for (let i = 0; i < tabs.length; i++) {
+      if (tabs[i].getAttribute('aria-selected') === 'true') return i;
+    }
+    return 0;
+  }
+
+  function startAutoRotate() {
+    stopAutoRotate();
+    rotateTimer = setInterval(function () {
+      const next = (getCurrentIndex() + 1) % tabs.length;
+      selectTab(next, false);
+    }, ROTATE_MS);
+  }
+
+  function stopAutoRotate() {
+    if (rotateTimer) {
+      clearInterval(rotateTimer);
+      rotateTimer = null;
+    }
+  }
+
+  function restartAutoRotate() {
+    stopAutoRotate();
+    startAutoRotate();
+  }
+
+  // Pause rotation while the user is hovering the tab strip or plate.
+  const tabStrip = document.querySelector('.dirC__tabs');
+  [tabStrip, plate].forEach(function (el) {
+    if (!el) return;
+    el.addEventListener('mouseenter', stopAutoRotate);
+    el.addEventListener('mouseleave', startAutoRotate);
+    el.addEventListener('focusin', stopAutoRotate);
+    el.addEventListener('focusout', startAutoRotate);
+  });
+
+  // Pause when the tab/window isn't visible — no point cycling offscreen.
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) stopAutoRotate();
+    else startAutoRotate();
+  });
+
+  // Honor reduced-motion: don't auto-rotate if the user prefers reduced motion.
+  const prefersReducedMotion = window.matchMedia &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!prefersReducedMotion) {
+    startAutoRotate();
+  }
 
   // ----- Mobile nav toggle -----
   const navToggle = document.querySelector('.dirC__nav-toggle');
